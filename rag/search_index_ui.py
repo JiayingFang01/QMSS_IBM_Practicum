@@ -1,3 +1,5 @@
+"""User interface for seeing vector database matches."""
+
 import os
 import streamlit as st
 import pprint
@@ -15,7 +17,7 @@ logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
 COLLECTION_NAME = "doc_index"
-EMBEDDING_MODEL = "all-MiniLM-L6-v2"
+EMBEDDING_MODEL = "sentence-transformers/multi-qa-mpnet-base-dot-v1"
 
 ANSWER_ROLE = "Document Index"
 FIRST_MESSAGE = "Enter text to find document matches."

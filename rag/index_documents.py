@@ -124,7 +124,7 @@ def generate_embed_index(docs, doc_ids):
 def create_index_chroma(docs, embeddings, persist_dir, doc_ids):
     """Creates a Chroma vector store."""
     text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size=1000,  # Adjust the chunk size based on your needs
+        chunk_size=1800,  # Adjust the chunk size based on your needs
         chunk_overlap=200
     )
     

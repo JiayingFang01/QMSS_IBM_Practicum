@@ -1,10 +1,6 @@
-"""The simplest script for embedding-based retrieval."""
+"""The script for embedding-based retrieval."""
 
-# Copyright (c) 2023 Brent Benson
-#
-# This file is part of [project-name], licensed under the MIT License.
-# See the LICENSE file in this repository for details.
-
+# Import Python Packages
 import os
 from dotenv import load_dotenv
 from langchain_community.embeddings import HuggingFaceEmbeddings
@@ -21,8 +17,10 @@ EMBEDDING_MODEL = "sentence-transformers/multi-qa-mpnet-base-dot-v1"
 CHROMA_PERSIST_DIR = os.getenv("CHROMA_PERSIST_DIR")
 
 if not CHROMA_PERSIST_DIR:
-    # Ensure you have a default or fallback if the variable is not set
-    CHROMA_PERSIST_DIR = "/path/to/your/default/persist/directory"
+    raise EnvironmentError("CHROMA_PERSIST_DIR is not set in the environment. Please make sure to define it in the .env file.")
+
+if not os.path.exists(CHROMA_PERSIST_DIR):
+    raise FileNotFoundError(f"Persist directory '{CHROMA_PERSIST_DIR}' does not exist. Please ensure the embedding index is created before retrieval.")
 
 def main():
     # Same model as used to create persisted embedding index
