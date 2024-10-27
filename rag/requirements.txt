@@ -1,7 +1,6 @@
-langchain[all]
-sentence-transformers
-chromadb
 streamlit
+langchain_community
+sentence-transformers
 openai
-pypdf
 python-dotenv
+chromadb
