@@ -91,6 +91,16 @@ st.markdown(
         border-bottom: 2px solid #71a4de;
         padding-bottom: 5px;
     }
+    
+    .custom-download-button button {
+        display: inline-block !important;
+        background-color: #4CAF50 !important;
+        color: white !important;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-size: 16px;
+    }
     </style>
     """,
     unsafe_allow_html=True
@@ -138,7 +148,19 @@ def main():
         st.write(
             "This tool uses LangChain's Conversational Retrieval Chain to provide accurate answers based on executive order documents."
         )
-
+        st.markdown("<div class='custom-title'>Data</div>", unsafe_allow_html=True)
+        st.write(
+            "Executive Orders Dataset link: https://www.federalregister.gov/presidential-documents/executive-orders"
+        )
+        st.write(
+            "This link takes you to the Federal Register's official page for Executive Orders, which are legally binding directives from the President that guide the operations of the federal government. The page provides access to the full text of these orders, organized by date or topic, offering a clear view of the policies and priorities of different administrations."
+        )
+        st.write(
+            "GitHub link: https://github.com/JiayingFang01/QMSS_IBM_Practicum"
+        )
+        st.write(
+        " Please see the GitHub repository for the code and project details."
+        )
     elif st.session_state.page == "How-to Guides":
         st.markdown("<div class='custom-title'>How-to Guides</div>", unsafe_allow_html=True)
         st.write("Learn how to use the chatbot and interact with executive order documents.")
@@ -146,6 +168,33 @@ def main():
         st.write("Type your question about an executive order in the input box.")
         st.markdown("<div class='section-header'>Step 2: Get Response</div>", unsafe_allow_html=True)
         st.write("Click 'Run Query' to get an answer.")
+        st.markdown("<div class='section-header'>FAQ💡</div>", unsafe_allow_html=True)
+        with st.expander("Why are executive orders important?"):
+            st.write("""
+            Executive orders allow the President to take swift action on critical issues
+             without waiting for Congress to pass legislation.
+            """)
+        with st.expander("Which executive orders are included in this chatbot?"):
+            st.write("""
+            The chatbot includes executive orders since 1937, 
+            spanning topics like national security, public health, and economic policy
+            """)
+        with st.expander("How can I search for a specific executive order?"):
+            st.write("""
+            You can search by keywords,
+            the President’s name, the signing date, or the topic of the executive order.
+            """)
+        with st.expander("Can the chatbot explain the purpose of an executive order?"):
+            st.write("""
+            Yes, the chatbot can provide an overview of the purpose and
+             context of specific executive orders.
+            """)
+        with st.expander("What should I do if the chatbot cannot answer my question?"):
+            st.write("""
+                   If the chatbot cannot provide an answer,
+                    try rephrasing your question or 
+                    visiting the Federal Register's official website for more detailed information.
+                   """)
 
     elif st.session_state.page == "Ask the Chatbot":
         st.markdown("<div class='custom-title'>Chatbot 💬</div>", unsafe_allow_html=True)
@@ -196,6 +245,14 @@ def main():
                     st.write("### Response")
                     st.write(query_response["answer"])
 
+                    # Add the Save As button
+                    file_content = f"Prompt: {prompt}\n\nResponse: {query_response['answer']}"
+                    st.download_button(
+                        label="Download Your Response",
+                        data=file_content,
+                        file_name="IBM_Model_Response.txt",
+                        mime="text/plain",
+                    )
                 except Exception as e:
                     st.error(f"Error: {e}")
             else:
