@@ -1,0 +1,2 @@
+doc_index/chroma.sqlite3 filter=lfs diff=lfs merge=lfs -text
+doc_index/* filter=lfs diff=lfs merge=lfs -text
