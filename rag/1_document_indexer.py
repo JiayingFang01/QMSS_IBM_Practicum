@@ -24,7 +24,7 @@ COLLECTION_NAME = "doc_index"
 EMBEDDING_MODEL = "sentence-transformers/multi-qa-mpnet-base-dot-v1"
 CHROMA_PERSIST_DIR = os.getenv("CHROMA_PERSIST_DIR", os.path.join(BASE_DIR, 'rag'))
 
-CHUNK_SIZE = 1800
+CHUNK_SIZE = 1200
 CHUNK_OVERLAP = 200
 
 
