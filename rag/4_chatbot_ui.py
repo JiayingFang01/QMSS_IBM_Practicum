@@ -1,3 +1,6 @@
+"""PART IV: Design UI for the chatbot."""
+
+# Import Python packages
 import os
 import streamlit as st
 from dotenv import load_dotenv
@@ -13,7 +16,7 @@ load_dotenv()
 # Constants
 COLLECTION_NAME = "doc_index"
 EMBEDDING_MODEL = "sentence-transformers/multi-qa-mpnet-base-dot-v1"
-MEMORY_WINDOW_SIZE = 10
+MEMORY_WINDOW_SIZE = 20
 
 # Custom CSS for sidebar and main page styling
 st.markdown(
@@ -106,8 +109,10 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# Helper functions
+
+# Retrieve the database
 def get_embed_db(embeddings):
+    """Retrieves the Chroma vector store using the specified embedding model."""
     chroma_persist_dir = os.getenv("CHROMA_PERSIST_DIR")
     if chroma_persist_dir:
         db = get_chroma_db(embeddings, chroma_persist_dir)
@@ -115,13 +120,75 @@ def get_embed_db(embeddings):
         raise EnvironmentError("No vector store environment variables found.")
     return db
 
+
 def get_chroma_db(embeddings, persist_dir):
+    """Load the Chroma vector store from the persisted directory."""
     db = Chroma(
         embedding_function=embeddings,
         collection_name=COLLECTION_NAME,
         persist_directory=persist_dir,
     )
     return db
+
+
+# Functions to format the response
+def extract_sources_with_metadata(source_documents):
+    """Extract and format metadata and content from source documents."""
+    sources = []
+    for doc in source_documents:
+        metadata = doc.metadata
+        page_content = doc.page_content
+        
+        # Extract full text and metadata
+        clean_full_text = extract_clean_full_text(page_content)
+
+        source_entry = {
+            "President": metadata.get("president"),
+            "Title": metadata.get("title"),
+            "EO number": metadata.get("executive_order_number"),
+            "Publication Date": metadata.get("publication_date"),
+            "Signing Date": metadata.get("signing_date"),
+            "PDF URL": metadata.get("pdf_url"),
+            "Relevant Paragraph": clean_full_text,
+        }
+        sources.append(source_entry)
+    return sources
+
+
+def extract_clean_full_text(page_content):
+    """Extract only the full text from the document, removing metadata."""
+    full_text_marker = "Full Text: "
+    marker_index = page_content.find(full_text_marker)
+    
+    if marker_index != -1:
+        # Extract everything after the marker
+        return page_content[marker_index + len(full_text_marker):].strip()
+    else:
+        # If the marker is not found, return the original text
+        return page_content.strip()
+    
+
+def format_sources(source_documents):
+    """Formats retrieved documents for the LLM prompt, numbering the sources."""
+    formatted = []
+    for i, doc in enumerate(source_documents, start=1):
+        metadata = doc.metadata
+        page_content = extract_clean_full_text(doc.page_content)
+        
+        # Manually construct the paragraph text with source numbering
+        paragraph_text = (
+            f"Source {i}:\n\n"
+            f"Title: {metadata.get('title', 'Unknown Title')}\n\n"
+            f"President: {metadata.get('president', 'Unknown President')}\n\n"
+            f"EO Number: {metadata.get('executive_order_number', 'Unknown EO')}\n\n"
+            f"Signing Date: {metadata.get('signing_date', 'Unknown Date')}\n\n"
+            f"Publication Date: {metadata.get('publication_date', 'Unknown Date')}\n\n"
+            f"PDF URL: {metadata.get('pdf_url', 'Unknown URL')}\n\n"
+            f"Relevant Paragraph:\n{page_content}"
+        )
+        formatted.append(paragraph_text)
+    return "\n\n".join(formatted)
+
 
 # Initialize session state
 if "page" not in st.session_state:
@@ -134,7 +201,7 @@ def set_page(page):
 # Main function
 def main():
     # Sidebar navigation
-    st.sidebar.title("Executive Orders Chatbot-IBM")
+    st.sidebar.title("Executive Orders Chatbot - QMSS & IBM")
     st.sidebar.button("Introduction", on_click=set_page, args=("Introduction",), key="sidebar_intro")
     st.sidebar.button("How-to Guides", on_click=set_page, args=("How-to Guides",), key="sidebar_guides")
     st.sidebar.button("Ask the Chatbot", on_click=set_page, args=("Ask the Chatbot",), key="sidebar_chatbot")
@@ -148,6 +215,9 @@ def main():
         st.write(
             "This tool uses LangChain's Conversational Retrieval Chain to provide accurate answers based on executive order documents."
         )
+        st.write(
+            "This project was conducted as part of the QMSS Practicum Course at Columbia University, in partnership with IBM."
+        )
         st.markdown("<div class='custom-title'>Data</div>", unsafe_allow_html=True)
         st.write(
             "Executive Orders Dataset link: https://www.federalregister.gov/presidential-documents/executive-orders"
@@ -155,6 +225,10 @@ def main():
         st.write(
             "This link takes you to the Federal Register's official page for Executive Orders, which are legally binding directives from the President that guide the operations of the federal government. The page provides access to the full text of these orders, organized by date or topic, offering a clear view of the policies and priorities of different administrations."
         )
+        st.write(
+            "Our dataset focuses on executive orders issued by the most recent five presidents."
+        )
+        st.markdown("<div class='custom-title'>Github</div>", unsafe_allow_html=True)
         st.write(
             "GitHub link: https://github.com/JiayingFang01/QMSS_IBM_Practicum"
         )
@@ -192,8 +266,9 @@ def main():
         with st.expander("What should I do if the chatbot cannot answer my question?"):
             st.write("""
                    If the chatbot cannot provide an answer,
-                    try rephrasing your question or 
-                    visiting the Federal Register's official website for more detailed information.
+                    try re-running the query or rephrasing your question. 
+                    If it still cannot work, 
+                    please visit the Federal Register's official website for more detailed information.
                    """)
 
     elif st.session_state.page == "Ask the Chatbot":
@@ -239,14 +314,39 @@ def main():
                         verbose=False,
                         return_source_documents=True,
                     )
-
+                    
+                    # Execute the query with detailed prompt
+                    initial_response = query_chain({"question": prompt})
+                    source_documents = initial_response.get("source_documents", [])
+                    formatted_sources = format_sources(source_documents)
+                      
+                    detailed_prompt = (
+                        f"You are an expert on U.S. Executive Orders (EOs). Based on the retrieved information below, "
+                        f"answer the user's question concisely, and include the specific paragraph(s) used. "
+                        f"If you cannot directly find the answer, follow these steps:\n\n"
+                        f"1. Attempt to infer the answer using related terms or synonyms. For example:\n"
+                        f"   - If the question mentions 'AI' but no direct information is available, look for terms like 'Technology,' 'Software,' or 'Innovation.'\n"
+                        f"   - If the question is about 'Climate Change' but not explicitly mentioned, search for terms like 'Environment,' 'Sustainability,' or 'Emissions Reduction.'\n"
+                        f"   - For queries about 'Data Privacy,' try finding references to 'Security,' 'Information Protection,' or 'Cybersecurity.'\n"
+                        f"   - If the question mentions 'Executive Orders,' treat alternate terms like 'EO,' 'Executive Orders documents,' or 'Presidential directives' as equivalent.\n\n"
+                        f"2. If inference is not possible, clarify that the answer could not be found, but offer context from related paragraphs "
+                        f"to provide useful information. For example:\n"
+                        f"   - 'The sources do not specifically mention AI, but they discuss advancements in technology that could include AI applications.'\n"
+                        f"   - 'No specific mention of climate change mitigation, but the EO emphasizes renewable energy initiatives, which indirectly address emissions.'\n"
+                        f"   - 'Data privacy is not explicitly mentioned, but Section III discusses frameworks for securing sensitive information.'\n"
+                        f"   - 'The question refers to Executive Orders documents, which are Presidential directives. The retrieved paragraphs describe federal guidelines relevant to the topic.'\n\n" 
+                        f"Retrieved Sources:\n{formatted_sources}\n"
+                        )
+                    
                     # Execute the query
-                    query_response = query_chain({"question": prompt})
+                    final_response = query_chain({"question": detailed_prompt})
                     st.write("### Response")
-                    st.write(query_response["answer"])
+                    st.write(final_response["answer"])
+                    st.write("### Sources")
+                    st.write(formatted_sources)
 
                     # Add the Save As button
-                    file_content = f"Prompt: {prompt}\n\nResponse: {query_response['answer']}"
+                    file_content = f"Prompt: {prompt}\n\nResponse: {initial_response['answer']}\n\nSources:\n{formatted_sources}"
                     st.download_button(
                         label="Download Your Response",
                         data=file_content,
@@ -260,16 +360,6 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-
-
-
-
-
-
-
-
 
 
 

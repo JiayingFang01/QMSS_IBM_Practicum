@@ -1,6 +1,6 @@
-"""The script for embedding-based retrieval."""
+"""PART II: embedding-based retrieval."""
 
-# Import Python Packages
+# Import Python packages
 import os
 from dotenv import load_dotenv
 from langchain_community.embeddings import HuggingFaceEmbeddings
@@ -22,38 +22,37 @@ if not CHROMA_PERSIST_DIR:
 if not os.path.exists(CHROMA_PERSIST_DIR):
     raise FileNotFoundError(f"Persist directory '{CHROMA_PERSIST_DIR}' does not exist. Please ensure the embedding index is created before retrieval.")
 
-def main():
-    # Same model as used to create persisted embedding index
-    embeddings = HuggingFaceEmbeddings(model_name=EMBEDDING_MODEL)
 
-    # Access persisted embeddings
+def main():
+    """Main function to perform similarity search on the persisted vector store."""
+    embeddings = HuggingFaceEmbeddings(model_name=EMBEDDING_MODEL) # Use same model
     db = get_embed_db(embeddings)
 
     # Example query for similarity indexing
     prompt = (
-        "New Jersey Transit Rail Operations"
+        "EO 13773"
     )
 
     # Display matched documents and similarity scores
     print(f"Finding document matches for '{prompt}'")
     docs_scores = db.similarity_search_with_score(prompt)
     for doc, score in docs_scores:
-        print(f"\nSimilarity score (lower is better): {score}")
+        print(f"\nSimilarity score (lower is better): {score:.2f}")
         print(doc.metadata)
         print(doc.page_content)
 
 
 def get_embed_db(embeddings):
+    """Retrieves the Chroma vector store using the specified embedding model."""
     if CHROMA_PERSIST_DIR:
         db = get_chroma_db(embeddings, CHROMA_PERSIST_DIR)
     else:
-        # Handle missing persist directory here
         raise EnvironmentError("No vector store persist directory found.")
     return db
 
 
 def get_chroma_db(embeddings, persist_dir):
-    # Load the Chroma vector store from the persisted directory
+    """Load the Chroma vector store from the persisted directory."""
     db = Chroma(
         embedding_function=embeddings,
         collection_name=COLLECTION_NAME,
