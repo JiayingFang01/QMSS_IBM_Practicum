@@ -1,4 +1,5 @@
 streamlit
+sqlite3
 langchain_community
 sentence-transformers
 openai
