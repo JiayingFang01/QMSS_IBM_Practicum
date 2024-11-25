@@ -22,7 +22,7 @@ COLLECTION_NAME = "doc_index"
 EMBEDDING_MODEL = "sentence-transformers/multi-qa-mpnet-base-dot-v1"
 
 # Size of window for buffered window memory
-MEMORY_WINDOW_SIZE = 20
+MEMORY_WINDOW_SIZE = 30
 
 def main(prompt):
     """ Main function to execute the retrieval pipeline and interact with the LLM."""

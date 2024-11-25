@@ -17,7 +17,7 @@ load_dotenv()
 # Constants
 COLLECTION_NAME = "doc_index"
 EMBEDDING_MODEL = "sentence-transformers/multi-qa-mpnet-base-dot-v1"
-MEMORY_WINDOW_SIZE = 20
+MEMORY_WINDOW_SIZE = 30
 
 # Log full text sent to LLM
 VERBOSE = False
@@ -501,9 +501,8 @@ def main():
                     st.write(answer)
 
                     # Show retrieved sources
-                    structured_sources = extract_sources_with_metadata(source_documents) 
                     st.write("### Sources") 
-                    st.write(structured_sources)
+                    st.write(formatted_sources)
 
                     # Add the Save As button
                     file_content = f"Prompt: {prompt}\n\nResponse: {answer}\n\nSources:\n{formatted_sources}"
