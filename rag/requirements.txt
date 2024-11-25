@@ -1,5 +1,4 @@
 langchain
-langchain_core
 chromadb==0.3.27
 streamlit==1.40.1
 langchain_community
