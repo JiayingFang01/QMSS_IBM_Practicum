@@ -1,7 +1,6 @@
-langchain
-chromadb==0.3.27
-streamlit==1.40.1
+streamlit
 langchain_community
 sentence-transformers
 openai
 python-dotenv
+chromadb
