@@ -46,52 +46,53 @@ def main():
 
 
 def extract_keywords(prompt):
-    """Extract keywords for metadata fields from the query, including similar terms and inferred values."""
+    """Extract keywords for metadata fields from the query, including multiple occurrences."""
     keywords = {}
 
-    # Extract Executive Order number or similar terms
-    eo_match = re.search(r"(EO|Executive Order|Presidential Order|Order)\s*(\d+)", prompt, re.IGNORECASE)
-    if eo_match:
-        keywords["executive_order_number"] = eo_match.group(2)
+    # Extract all Executive Order numbers or similar terms
+    eo_matches = re.findall(r"(EO|Executive Order|Presidential Order|Order)\s*(\d+)", prompt, re.IGNORECASE)
+    if eo_matches:
+        keywords["executive_order_number"] = [match[1] for match in eo_matches]
 
-    # Extract President's name
-    president_match = re.search(
+    # Extract all President names
+    president_matches = re.findall(
         r"President\s+(Joseph\s+Biden|Barack\s+Obama|Donald\s+Trump|George\s+(W\s+)?Bush|Bill\s+Clinton|Ronald\s+Reagan)",
         prompt, re.IGNORECASE
     )
-    if president_match:
-        keywords["president"] = president_match.group(1)
+    if president_matches:
+        # Convert tuples to simple strings
+        keywords["president"] = list(set(match[0] if isinstance(match, tuple) else match for match in president_matches))
 
-    # Extract Publication Date or similar terms
-    publication_date_match = re.search(
-        r"(published|released|effective|publication date|date of issuance)\s+(\b(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2},?\s+(19|20)\d{2})",
+    # Extract all Publication Dates or similar terms
+    publication_date_matches = re.findall(
+        r"(?:published|released|effective|publication date|date of issuance)\s+(\b(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2},?\s+(19|20)\d{2})",
         prompt, re.IGNORECASE
     )
-    if publication_date_match:
-        keywords["publication_date"] = publication_date_match.group(2)
+    if publication_date_matches:
+        keywords["publication_date"] = list(set(publication_date_matches))
 
-    # Extract Signing Date or similar terms
-    signing_date_match = re.search(
-        r"(signed on|signing date|issued on)\s+(\b(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2},?\s+(19|20)\d{2})",
+    # Extract all Signing Dates or similar terms
+    signing_date_matches = re.findall(
+        r"(?:signed on|signing date|issued on)\s+(\b(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2},?\s+(19|20)\d{2})",
         prompt, re.IGNORECASE
     )
-    if signing_date_match:
-        keywords["signing_date"] = signing_date_match.group(2)
+    if signing_date_matches:
+        keywords["signing_date"] = list(set(signing_date_matches))
 
-    # Infer Year from Dates
-    year_match = re.search(r"\b(19|20)\d{2}\b", prompt)
-    if year_match:
-        keywords["year"] = year_match.group(0)
+    # Infer Years from Dates
+    year_matches = re.findall(r"\b(19|20)\d{2}\b", prompt)
+    if year_matches:
+        keywords["year"] = list(set(year_matches))
 
-    # Extract Document Number or similar terms
-    document_number_match = re.search(r"(Document Number|Doc No)\s+(\d+)", prompt, re.IGNORECASE)
-    if document_number_match:
-        keywords["document_number"] = document_number_match.group(2)
+    # Extract all Document Numbers or similar terms
+    document_number_matches = re.findall(r"(Document Number|Doc No|#)\s+(\d+)", prompt, re.IGNORECASE)
+    if document_number_matches:
+        keywords["document_number"] = [match[1] for match in document_number_matches]
 
-    # Extract Title (General Topic or Subject)
-    title_match = re.search(r"(on|about|regarding)\s+([\w\s]+)", prompt, re.IGNORECASE)
-    if title_match:
-        keywords["title"] = title_match.group(2).strip()
+    # Extract all Titles (General Topics or Subjects)
+    title_matches = re.findall(r"(on|about|regarding)\s+([\w\s]+?)(?:,|\s+and|\s*$)", prompt, re.IGNORECASE)
+    if title_matches:
+        keywords["title"] = [match[1].strip() for match in title_matches]
 
     return keywords
 
@@ -100,12 +101,15 @@ def build_metadata_filter(keywords):
     """Build a valid metadata filter for Chroma."""
     metadata_filter = {}
     
-    # Only include valid keys for metadata filtering
+    # Include valid keys for metadata filtering
     valid_keys = {"title", "president", "publication_date", "signing_date", "document_number", "executive_order_number"}
     for key, value in keywords.items():
         if key in valid_keys and value:
-            # Ensure values are sanitized and simple strings
-            metadata_filter[key] = value.strip()
+            if isinstance(value, list):
+                # Handle multiple values using OR-like logic
+                metadata_filter[key] = {"$in": value}
+            else:
+                metadata_filter[key] = value.strip() if isinstance(value, str) else value
 
     return metadata_filter
 
@@ -114,36 +118,49 @@ def hybrid_search_with_metadata(prompt, db):
     """Perform a hybrid search using metadata and vector similarity."""
     # Extract keywords
     keywords = extract_keywords(prompt)
-    
-    # Build metadata filter
-    metadata_filter = build_metadata_filter(keywords)
 
     # Collect results from metadata filters
     metadata_results = []
-    if metadata_filter:
-        for field, value in metadata_filter.items():
+    for key, values in keywords.items():
+        if isinstance(values, list):  # Handle multiple values for a metadata field
+            for value in values:
+                try:
+                    filter_results = db.similarity_search_with_score("", filter={key: value})
+                    # Assign a low score (e.g., 10) for metadata matches
+                    metadata_results.extend((doc, 10) for doc, _ in filter_results)
+                except Exception as e:
+                    print(f"Filter error for field '{key}' with value '{value}': {e}")
+        else:  # Handle single value
             try:
-                # Apply each filter individually
-                filter_results = db.similarity_search_with_score("", filter={field: value})
-                metadata_results.extend(filter_results)
+                filter_results = db.similarity_search_with_score("", filter={key: values})
+                # Assign a low score (e.g., 10) for metadata matches
+                metadata_results.extend((doc, 10) for doc, _ in filter_results)
             except Exception as e:
-                print(f"Filter error for field '{field}': {e}")
+                print(f"Filter error for field '{key}' with value '{values}': {e}")
 
     # Perform vector search
     vector_results = db.similarity_search_with_score(prompt)
 
-    # Combine results
-    combined_results = metadata_results + vector_results
-
-    # Deduplicate and rerank
+    # Combine results with weighted scores
+    combined_results = []
     seen_docs = set()
-    unique_results = []
-    for doc, score in combined_results:
-        if doc.page_content not in seen_docs:
-            seen_docs.add(doc.page_content)
-            unique_results.append((doc, score))
 
-    return sorted(unique_results, key=lambda x: x[1])
+    # Use document content as a unique identifier
+    metadata_docs = {doc.page_content for doc, _ in metadata_results}
+
+    for doc, score in metadata_results + vector_results:
+        doc_id = id(doc)  # Use id() or doc.page_content as a unique identifier
+        if doc_id not in seen_docs:
+            seen_docs.add(doc_id)
+            # Combine scores with weighted adjustment
+            weight_metadata = 0.5  # Adjust as needed
+            weight_vector = 0.5    # Adjust as needed
+            # Metadata score is 10 if matched, 100 otherwise
+            combined_score = (weight_metadata * (10 if doc.page_content in metadata_docs else 100)) + (weight_vector * score)
+            combined_results.append((doc, combined_score))
+
+    # Sort results by combined score (lower is better)
+    return sorted(combined_results, key=lambda x: x[1])  # Lower score = higher relevance
 
 
 def get_embed_db(embeddings):
