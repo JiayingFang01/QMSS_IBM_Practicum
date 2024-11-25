@@ -1,8 +1,8 @@
 streamlit==1.40.1
+langchain==0.0.260
 chromadb==0.3.27
-pydantic==1.10.9
-langchain_core==0.0.190
-chromadb==0.3.27
+pydantic==1.9
+langchain_core==0.3.21
 torch==1.13.1
 langchain_community
 sentence-transformers
