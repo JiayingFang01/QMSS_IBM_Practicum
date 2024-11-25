@@ -1,6 +1,9 @@
 streamlit==1.40.1
 chromadb==0.3.27
-
+pydantic==1.10.9
+langchain_core==0.0.190
+chromadb==0.3.27
+torch==1.13.1
 langchain_community
 sentence-transformers
 openai
