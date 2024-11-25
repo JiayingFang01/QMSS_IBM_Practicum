@@ -4,3 +4,4 @@ sentence-transformers
 openai
 python-dotenv
 chromadb
+dotenv
