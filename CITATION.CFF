@@ -2,11 +2,8 @@ type: dataset
 cff-version: 1.2.0
 message: "If you use this dataset, please cite it as below."
 authors:
-- family-names: "YOUR_NAME_HERE"
-  given-names: "YOUR_NAME_HERE"
-  orcid: "https://orcid.org/0000-0000-0000-0000"
-- family-names: "Lisa"
-  given-names: "Mona"
+- family-names: "QMSS IBM Practicum Team"
+  given-names: "Fall 2024"
   orcid: "https://orcid.org/0000-0000-0000-0000"
 title: "QMSS_IBM_Practicum"
 version: 1.0.0
