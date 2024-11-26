@@ -2,9 +2,12 @@
 In this part, we completed data extraction and preprocessing that ensure our project will be producibility.
 
 ## 1. Overview
-Dataset Name: 
-Raw Data Refering doc: 
 Time Range: 1994 - Present
+
+Raw data output: eos_raw
+
+format: Json
+
 Size: total 1258 rows
 ## 2. Data Extract Method
 ### Method 1: Data extract from API
