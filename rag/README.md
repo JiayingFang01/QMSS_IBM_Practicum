@@ -39,11 +39,10 @@ Before running the code, ensure the [.env](https://github.com/JiayingFang01/QMSS
 **4. Rerank and Deduplicate Results:**
 - Combine results from metadata and vector searches, ensuring no duplicates.
 
-## PART 3: 
-**1. Retrieval Pipeline with LLM**
-- LLM Setup: 
-  - Model: GPT-3.5-turbo
-  - Memory Buffer: Implements ConversationBufferWindowMemory for contextual continuity with a window size of 30 turns.
+## PART 3: Retrieval Pipeline with LLM**
+1. LLM Setup:
+- Model: GPT-3.5-turbo
+- Memory Buffer: Implements ConversationBufferWindowMemory for contextual continuity with a window size of 30 turns.
     
 **2. Data Retrieval:**
 - Metadata Search: Extract keywords (EO numbers, presidents, dates, etc.) and apply filters for document matching.
