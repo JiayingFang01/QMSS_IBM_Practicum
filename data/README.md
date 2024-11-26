@@ -6,7 +6,7 @@ Time Range: 1994 - Present
 
 Raw data output: eos_raw
 
-format: Json
+Format: Json
 
 Size: total 1258 rows
 ## 2. Data Extract Method
@@ -25,4 +25,3 @@ Refering doc: eos_final
 
 ## Additional Information
 If you want to use this dataset, please cite us. Thank you!
-Citation: xxx
