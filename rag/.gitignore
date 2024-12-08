@@ -167,4 +167,4 @@ cython_debug/
 
 
 # Additional folder to ignore
-# doc_index/
+doc_index/
