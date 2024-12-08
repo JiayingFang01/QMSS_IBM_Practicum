@@ -3,8 +3,8 @@ Before running the code, ensure the [.env](https://github.com/JiayingFang01/QMSS
 
 ## How to Use
 - Step 0: Make sure you have [.env](https://github.com/JiayingFang01/QMSS_IBM_Practicum/blob/main/rag/.env) file in the folder on your local computer. Please **add your own API key** in it. 
-- Step 1 (Optional): If you want to create the vector database by yourself, delete the [doc_index](https://github.com/JiayingFang01/QMSS_IBM_Practicum/tree/main/rag/doc_index) folder on your local computer (which is used to saved all vector data), and then run [1_document_indexer.py](https://github.com/JiayingFang01/QMSS_IBM_Practicum/blob/main/rag/1_document_indexer.py). If not, skip Step 1. 
-- Step 2: Run [2_embedding_retrieval.py](https://github.com/JiayingFang01/QMSS_IBM_Practicum/blob/main/rag/2_embedding_retrieval.py). You can modify the query to test the retrieval process. 
+- Step 1 : Create the vecter database. Please run [1_document_indexer.py](https://github.com/JiayingFang01/QMSS_IBM_Practicum/blob/main/rag/1_document_indexer.py).  
+- Step 2: Run [2_embedding_retrieval.py](https://github.com/JiayingFang01/QMSS_IBM_Practicum/blob/main/rag/2_embedding_retrieval.py). You can modify the sample query to test the retrieval process. 
 - Step 3: Run [3_rag_pipeline.py](https://github.com/JiayingFang01/QMSS_IBM_Practicum/blob/main/rag/3_rag_pipeline.py). You can modify the query to test it.
 - Step 4: Run [4_chatbot_ui.py](https://github.com/JiayingFang01/QMSS_IBM_Practicum/blob/main/rag/4_chatbot_ui.py). You can run it in Terminal using the command "Streamlit run 4_chatbot_ui.py".
 
