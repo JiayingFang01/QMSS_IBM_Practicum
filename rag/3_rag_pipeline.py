@@ -333,5 +333,5 @@ def get_chroma_db(embeddings, persist_dir):
 
 
 if __name__ == "__main__":
-    prompt = "What are the similarities between EO 13771 and EO 13990?"
+    prompt = "How has the average text length of executive orders changed since 2000?"
     main(prompt)

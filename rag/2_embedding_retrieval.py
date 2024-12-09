@@ -31,7 +31,7 @@ def main():
 
     # Example query
     prompt = """
-    What are the key points of Executive Order 13773?
+    What are the key points of Executive Order 13773
     """
 
     # Perform hybrid search
@@ -156,7 +156,7 @@ def hybrid_search_with_metadata(prompt, db):
             weight_metadata = 0.5  # Adjust as needed
             weight_vector = 0.5    # Adjust as needed
             # Metadata score is 10 if matched, 100 otherwise
-            combined_score = (weight_metadata * (10 if doc.page_content in metadata_docs else 100)) + (weight_vector * score)
+            combined_score = (weight_metadata * (10 if doc.page_content in metadata_docs else 50)) + (weight_vector * score)
             combined_results.append((doc, combined_score))
 
     # Sort results by combined score (lower is better)
