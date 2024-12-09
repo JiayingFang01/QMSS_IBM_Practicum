@@ -1,0 +1,216 @@
+﻿Additional Information for Prompt Engineering
+
+
+Calculation Questions：
+
+
+1. Q: How many executive orders were signed each year?
+A: Based on the electronically archived dataset, the numbers of executive orders signed each year are as follows:
+* 2024: 13
+* 2023: 24
+* 2022: 29
+* 2021: 91
+* 2020: 69
+* 2019: 45
+* 2018: 37
+* 2017: 62
+* 2016: 42
+* 2015: 29
+* 2014: 31
+* 2013: 20
+* 2012: 39
+* 2011: 34
+* 2010: 35
+* 2009: 45
+* 2008: 30
+* 2007: 32
+* 2006: 27
+* 2005: 26
+* 2004: 45
+* 2003: 41
+* 2002: 31
+* 2001: 66
+* 2000: 41
+* 1999: 35
+* 1998: 38
+* 1997: 38
+* 1996: 49
+* 1995: 40
+* 1994: 54
+* 1993: 1
+
+
+2. Q: How many executive orders were signed by each president?
+A: Based on the electronically archived dataset, the numbers of executive orders signed by each president are as follows:
+* Joseph R. Biden Jr.: 143 executive orders (up to 2024).
+* Donald J. Trump: 221 executive orders.
+* Barack Obama: 294 executive orders.
+* George W. Bush: 294 executive orders.
+* William J. Clinton: 306 executive orders.
+
+
+3. Q: What is the length of the longest executive order issued?
+A: 
+* The longest executive order in history is titled "2018 Amendments to the Manual for Courts-Martial, United States (EO 13825)", issued in 2018 by Donald J. Trump.
+   * Length: 1.63 million characters.
+   * Details: This executive order is the most extensive legal document in the dataset, detailing amendments to military legal procedures.
+* Additionally, in 2023, President Joseph R. Biden Jr. issued the executive order titled "Safe, Secure, and Trustworthy Development and Use of Artificial Intelligence (EO 14110)", which is noteworthy for its exceptional length:
+   * Length: 144,286 characters.
+   * Details: This executive order focuses on ensuring the responsible and trustworthy development and deployment of AI technologies.
+
+
+4. Q: How many executive orders were revoked, amended, superseded, referenced as memos, or marked as "see"?
+A: 
+* Revoked: 179 executive orders.
+* Amended: 254 executive orders.
+* Superseded: 83 executive orders.
+* Memos: 125 executive orders.
+* "See" references: 98 executive orders.
+
+
+5. Q: Which president issued the highest number of executive orders within a year?
+A: President Franklin D. Roosevelt issued 381 executive orders in 1941, the highest number in a single year.
+
+
+6. Q: What is the average number of executive orders issued per president?
+A: The average number of executive orders issued across all presidents in the dataset is approximately 225.3 orders.
+
+
+7. Q: Which president had the highest average length of executive orders?
+A: President Joseph R. Biden Jr. had the highest average text length for executive orders at 1,243 characters per order.
+
+
+8. Q: What is the trend in executive orders signed annually?
+A: The annual number of executive orders shows variability, with notable peaks in 2021 (91 executive orders) and steady declines afterward, such as 24 in 2023 and 13 in 2024.
+
+
+9. Q: How many executive orders were issued in the last year?
+A: In the last year (2024), fewer than 20 executive orders were issued.
+
+
+10. Q: What is the average number of executive orders issued each year?
+A: Over the past decade, the average number of executive orders per year has been between 30 and 60.
+
+
+11. Q: What is the average number of executive orders signed per year for each president?
+A: 
+* Joseph R. Biden Jr.: An average of 35.75 executive orders per year.
+* Donald J. Trump: An average of 36.67 executive orders per year.
+* Barack Obama: An average of 27.8 executive orders per year.
+* George W. Bush: An average of 29.1 executive orders per year.
+* William J. Clinton: An average of 30.5 executive orders per year.
+
+
+EDA-Based Questions:
+
+
+12. Q: How many executive orders related to AI were issued each year?
+A: 
+* Here is a detailed list of AI-related executive orders issued by year, including their titles:
+   * 2024:
+   * Total: 3 Executive Orders
+      * Establishing an Emergency Board To Investigate Supply Chain Disruptions (Issued July 24, 2024)
+      * White House Council on Supply Chain Resilience (Issued June 14, 2024)
+      * Imposing Certain Sanctions on Persons Undermining Artificial Intelligence Systems (Issued February 1, 2024)
+   * 2023:
+   * Total: 5 Executive Orders
+      * Adjustments of Certain Rates of Pay (Issued December 21, 2023)
+      * Continuance of Certain Federal Advisory Committees on AI (Issued September 29, 2023)
+
+
+13. Q: How do executive orders differ between Democratic and Republican administrations?
+A: Democratic administrations tend to focus more on social policies (e.g., healthcare, environmental regulations), while Republican administrations often emphasize deregulation and economic growth. Sentiment analysis also shows a slightly more positive tone in executive orders from Democratic administrations.
+14. Q: Which president had the most balanced focus across diverse topics?
+A: Barack Obama issued executive orders across a wide range of topics, including healthcare, environmental protection, education, and national security, reflecting a balanced policy approach.
+
+
+15. Q: What is the average sentiment of executive orders related to AI?
+A: 
+   * Trump Administration: Average sentiment polarity of +0.10.
+   * Biden Administration: Average sentiment polarity of +0.05.
+
+
+16. Q: How many executive orders have been categorized under topics like Artificial Intelligence, Cybersecurity, Public Health, Economic Policy, Software, and Technology in the last decade?
+A: 
+   * Artificial Intelligence: Approximately 20 executive orders over the past 10 years.
+   * Cybersecurity: Approximately 15 executive orders over the past 10 years.
+   * Public Health: Approximately 30 executive orders over the past 10 years.
+   * Economic Policy: Approximately 50 executive orders over the past 10 years.
+   * Software: Approximately 10 executive orders over the past 10 years.
+   * Technology: Approximately 20 executive orders over the past 10 years.
+
+
+17. Q: How have the topics of executive orders shifted over the past 10 years? 
+A: Over the past decade, the focus of executive orders has shifted from traditional economic and security-related issues to emerging areas like Artificial Intelligence and cybersecurity. Public health gained prominence during the COVID-19 pandemic (2020–2021), while technology-related policies saw increased attention post-2022.
+
+
+18. Q: How do the executive orders of the Biden administration compare in tone and content to those of the Trump administration?
+A: The Biden administration’s executive orders generally exhibit a higher average sentiment polarity (+0.05) compared to Trump’s (+0.10). Additionally, Biden’s orders tend to focus on collaborative and long-term policy strategies, such as promoting AI development, while Trump’s orders often emphasized immediate economic and security measures.
+
+
+19. Q: Are there noticeable trends in the issuance of executive orders during election years?
+A: Yes, there is often a spike in executive orders during election years as presidents push through key policies. For example, 2020 saw a high frequency of orders addressing pandemic-related issues.
+
+
+20. Q: Has the length of executive orders increased over time, and if so, why? 
+A: Yes, the length of executive orders has increased, particularly since 2019. This trend reflects a move towards more comprehensive and detailed policies, exemplified by Biden’s 2022 executive order on AI development, which is over 14,000 characters long.
+Dispositions Questions:
+
+
+21. Q: Can a single executive order have multiple dispositions (e.g., amend and revoke)?
+A: Yes, executive orders can include multiple dispositions. For example, an order may amend a section of a previous order while revoking another part entirely. Such combined actions are reflected in approximately 15% of all orders in the dataset.
+
+
+22. Q: Which president issued the most revoked executive orders?
+A: President Franklin D. Roosevelt holds the record for the highest number of revoked executive orders due to the sheer volume of orders issued during his presidency, with a total of 58 revoked orders.
+
+
+23. Q: What is the most frequently amended executive order?
+A: The executive order EO 10988, issued by President John F. Kennedy in 1962, related to federal labor-management relations, has been amended the most frequently, with 9 amendments over subsequent administrations.
+
+
+24. Q: How many executive orders were partially superseded?
+A: 47 executive orders were marked as partially superseded, indicating only specific provisions of the original orders were replaced while others remained valid.
+
+
+25. Q: What percentage of executive orders are eventually revoked or superseded, and what does this tell us about their permanence? 
+A: Approximately 15–20% of executive orders are eventually revoked or superseded. This indicates that while executive orders are powerful tools for immediate action, their longevity often depends on subsequent administrations and evolving policy landscapes.
+
+
+26. Q: In which years were the highest numbers of executive orders issued for each type of disposition: superseded, revoked, amended, memo, and "see"?
+A: 
+* Superseded: The highest number of superseding executive orders was in 2021, with 12 orders.
+* Revoked: The year 2021 also had the highest number of revocations, totaling 27 orders.
+* Amended: The highest number of amendments occurred in 1996, with 19 orders.
+* Memo: The year with the most memos was 2001, with 4 orders.
+* "See" References: The highest number of "see" references was in 2021, with 44 orders.
+
+
+Text Length Questions:
+
+
+27. Q: How has the average text length of executive orders changed over the past 10 years?
+A: The average text length of executive orders has experienced significant variation over the years.
+* Between 2014 and 2017, the average text length increased steadily, reflecting a rise in the complexity or comprehensiveness of the orders.
+* From 2017 to 2019, the average text length plateaued and slightly decreased, indicating a potential focus on more concise orders.
+* Starting in 2019, the average text length grew dramatically, peaking in 2022 at around 14,000 characters, likely driven by exceptionally lengthy and detailed executive orders such as the Safe, Secure, and Trustworthy Development and Use of Artificial Intelligence (EO 14110).
+* Post-2022, the average text length slightly decreased but remained significantly higher than earlier years, stabilizing in 2023 and 2024 at approximately 12,000 characters.
+
+
+28. Q: Has the average text length of executive orders remained stable in recent years?
+A: No, the average text length of executive orders has not remained stable in recent years.
+* Between 2019 and 2022, the average text length increased significantly, peaking in 2022 at approximately 14,000 characters, driven by particularly long and detailed executive orders.
+* After 2022, the average text length saw a slight decline, stabilizing at around 12,000 characters in 2023 and 2024.
+
+
+29. Q: Do longer executive orders tend to focus on more complex issues?
+A: Generally, yes. For instance:
+   * The longest executive order, EO 13825 (1.63 million characters), focused on military legal procedures.
+   * Similarly, AI-related executive orders by Biden are often lengthier due to detailed policy frameworks.
+
+
+30. Q: What is the typical text length of executive orders issued since 2020?
+A: The typical text length of executive orders issued since 2020 has been significantly higher compared to earlier years:
+* In 2020, the average text length began to rise sharply, reaching around 7,000 characters.
+* By 2022, the average text length peaked at approximately 14,000 characters, driven by lengthy and detailed executive orders.
+* In 2023 and 2024, the average text length stabilized at around 12,000 characters.
