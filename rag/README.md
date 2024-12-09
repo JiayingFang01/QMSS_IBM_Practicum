@@ -2,7 +2,7 @@
 Before running the code, ensure the .env file is in the folder on your local computer and that your API key is added to it.
 
 ## How to Use
-- Step 0: Make sure you have [.env](https://github.com/JiayingFang01/QMSS_IBM_Practicum/blob/main/rag/.env) file in the folder on your local computer. Please **add your own API key** in it. 
+- Step 0: Make sure you have [.env](https://github.com/JiayingFang01/QMSS_IBM_Practicum/blob/main/rag/env.default) file in the folder on your local computer. Please **add your own API key** in it. 
 - Step 1 : Create the vecter database. Please run [1_document_indexer.py](https://github.com/JiayingFang01/QMSS_IBM_Practicum/blob/main/rag/1_document_indexer.py).  
 - Step 2: Run [2_embedding_retrieval.py](https://github.com/JiayingFang01/QMSS_IBM_Practicum/blob/main/rag/2_embedding_retrieval.py). You can modify the sample query to test the retrieval process. 
 - Step 3: Run [3_rag_pipeline.py](https://github.com/JiayingFang01/QMSS_IBM_Practicum/blob/main/rag/3_rag_pipeline.py). You can modify the query to test it.
