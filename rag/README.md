@@ -1,5 +1,5 @@
 # RAG
-Before running the code, ensure the [.env](https://github.com/JiayingFang01/QMSS_IBM_Practicum/blob/main/rag/.env) file is in the folder on your local computer and that your API key is added to it.
+Before running the code, ensure the .env file is in the folder on your local computer and that your API key is added to it.
 
 ## How to Use
 - Step 0: Make sure you have [.env](https://github.com/JiayingFang01/QMSS_IBM_Practicum/blob/main/rag/.env) file in the folder on your local computer. Please **add your own API key** in it. 
